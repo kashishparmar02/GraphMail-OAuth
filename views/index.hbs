@@ -1,0 +1,10 @@
+<!-- index.hbs -->
+<h1>Welcome to My Email App</h1>
+<p>
+  Node js app that allows to authenticate user and fetch emails from outlook.
+</p>
+{{#if user}}
+  <a href="/email/inbox" class="btn btn-primary">Get Emails</a>
+{{else}}
+  <a href="/auth/signin" class="btn btn-primary">Sign In</a>
+{{/if}}

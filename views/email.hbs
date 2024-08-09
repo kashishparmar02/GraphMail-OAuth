@@ -1,0 +1,24 @@
+<h1>Inbox</h1>
+
+{{#if emails}}
+  {{#each emails}}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{#if subject}}{{subject}}{{else}}(No subject){{/if}}</h5>
+        <p class="card-text">
+          From: {{from.emailAddress.name}} ({{from.emailAddress.address}})
+        </p>
+        <p class="card-text">
+          Received: {{eventDateTime receivedDateTime}}
+        </p>
+        <div class="card-text">{{{body.content}}}</div>
+      </div>
+    </div>
+  {{/each}}
+{{else}}
+  <p>No emails found in your inbox.</p>
+{{/if}}
+
+<div class="d-flex justify-content-end mt-4">
+  <a href="/auth/signout" class="btn btn-danger">Sign Out</a>
+</div>
