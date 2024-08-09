@@ -1,24 +1,144 @@
-<h1>Inbox</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            color: #343a40;
+        }
 
-{{#if emails}}
-  {{#each emails}}
-    <div class="card mb-3">
-      <div class="card-body">
-        <h5 class="card-title">{{#if subject}}{{subject}}{{else}}(No subject){{/if}}</h5>
-        <p class="card-text">
-          From: {{from.emailAddress.name}} ({{from.emailAddress.address}})
-        </p>
-        <p class="card-text">
-          Received: {{eventDateTime receivedDateTime}}
-        </p>
-        <div class="card-text">{{{body.content}}}</div>
-      </div>
+        h1 {
+            color: #343a40;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+            font-size: 1.25rem;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+            background-color: #ffffff;
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-text {
+            margin-bottom: 0.5rem;
+            color: #6c757d;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        .input-group {
+            width: 50%;
+            max-width: 400px;
+        }
+
+        .email-item {
+            transition: background-color 0.3s ease;
+        }
+
+        .email-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .alert {
+            font-size: 1.1rem;
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            border-radius: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Inbox</h1>
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchEmails" placeholder="Search emails by subject or sender...">
+            </div>
+        </div>
+
+        {{#if emails}}
+            <div class="list-group" id="emailList">
+                {{#each emails}}
+                    <div class="card mb-3 shadow-sm email-item">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">{{#if subject}}{{subject}}{{else}}(No subject){{/if}}</h5>
+                            <span class="badge bg-light text-dark">{{eventDateTime receivedDateTime}}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <strong>From:</strong> {{from.emailAddress.name}} <span class="text-muted">({{from.emailAddress.address}})</span>
+                            </p>
+                            <hr>
+                            <div class="card-text email-content">{{{body.content}}}</div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        {{else}}
+            <div class="alert alert-info" role="alert">
+                No emails found in your inbox.
+            </div>
+        {{/if}}
+
+        <div class="d-flex justify-content-end mt-4">
+            <a href="/auth/signout" class="btn btn-danger btn-lg">Sign Out</a>
+        </div>
     </div>
-  {{/each}}
-{{else}}
-  <p>No emails found in your inbox.</p>
-{{/if}}
 
-<div class="d-flex justify-content-end mt-4">
-  <a href="/auth/signout" class="btn btn-danger">Sign Out</a>
-</div>
+    <script>
+        document.getElementById('searchEmails').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const emailItems = document.getElementsByClassName('email-item');
+
+            Array.from(emailItems).forEach(item => {
+                const subject = item.querySelector('.card-title').textContent.toLowerCase();
+                const sender = item.querySelector('.card-text strong').nextSibling.textContent.toLowerCase();
+
+                if (subject.includes(searchValue) || sender.includes(searchValue)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
