@@ -4,93 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inbox</title>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-            color: #343a40;
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+        color: #343a40;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .header-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 1rem; /* Added padding for more space around */
+    }
+
+    h1 {
+        color: #007bff;
+        font-size: 3rem; /* Larger font size */
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        text-align: center; /* Center align */
+        padding-bottom: 1rem; /* Space below header */
+        
+        width: 100%;
+    }
+
+    .search-filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 2rem; /* Increased bottom margin for separation */
+    }
+
+    .search-filter-container input,
+    .search-filter-container button {
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        border: 1px solid #ced4da;
+    }
+
+    .search-filter-container input {
+        flex: 1;
+        max-width: 300px;
+        border: 1px solid #007bff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-filter-container button {
+        border: 1px solid #007bff;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Media Queries for Responsive Design */
+    @media (max-width: 768px) {
+        .search-filter-container {
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        h1 {
-            color: #343a40;
+        .search-filter-container input,
+        .search-filter-container button {
+            width: 100%;
         }
+    }
 
-        .card-header {
-            background-color: #007bff;
-            color: #fff;
-            padding: 0.75rem 1.25rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-            font-size: 1.25rem;
-        }
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        font-size: 1.5rem; /* Slightly larger font size */
+        font-weight: 500;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
 
-        .card-body {
-            padding: 1.25rem;
-            background-color: #ffffff;
-        }
+    .card-body {
+        padding: 1.25rem;
+        background-color: #ffffff;
+    }
 
-        .card {
-            border: none;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-        }
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .card-title {
-            margin: 0;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
+    .card-title {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
 
-        .card-text {
-            margin-bottom: 0.5rem;
-            color: #6c757d;
-        }
+    .card-text {
+        margin-bottom: 0.5rem;
+        color: #6c757d;
+    }
 
-        .badge {
-            font-size: 0.85rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.25rem;
-        }
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.25rem;
+    }
 
-        .input-group {
-            width: 50%;
-            max-width: 400px;
-        }
+    .email-item {
+        transition: background-color 0.3s ease;
+    }
 
-        .email-item {
-            transition: background-color 0.3s ease;
-        }
+    .email-item:hover {
+        background-color: #f1f1f1;
+    }
 
-        .email-item:hover {
-            background-color: #f1f1f1;
-        }
+    .alert {
+        font-size: 1.1rem;
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+        border-radius: 0.5rem;
+    }
 
-        .alert {
-            font-size: 1.1rem;
-            color: #0c5460;
-            background-color: #d1ecf1;
-            border-color: #bee5eb;
-            border-radius: 0.5rem;
-        }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: #fff;
+    }
+</style>
 
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: #fff;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: #fff;
-        }
-    </style>
 </head>
 <body>
     <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="header-container">
             <h1>Inbox</h1>
-            <div class="input-group">
+            <div class="search-filter-container">
                 <input type="text" class="form-control" id="searchEmails" placeholder="Search emails...">
+                <input type="date" class="form-control" id="startDate" placeholder="Start Date">
+                <input type="date" class="form-control" id="endDate" placeholder="End Date">
+                <button class="btn btn-primary" id="filterButton">Filter</button>
             </div>
         </div>
 
@@ -124,22 +190,36 @@
     </div>
 
     <script>
-        document.getElementById('searchEmails').addEventListener('input', function() {
-            const searchValue = this.value.toLowerCase();
+        document.getElementById('searchEmails').addEventListener('input', filterEmails);
+        document.getElementById('filterButton').addEventListener('click', filterEmails);
+
+        function filterEmails() {
+            const searchValue = document.getElementById('searchEmails').value.toLowerCase();
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
             const emailItems = document.getElementsByClassName('email-item');
 
             Array.from(emailItems).forEach(item => {
                 const subject = item.querySelector('.card-title').textContent.toLowerCase();
                 const sender = item.querySelector('.card-text strong').nextSibling.textContent.toLowerCase();
                 const content = item.querySelector('.email-content').textContent.toLowerCase();
+                const dateReceived = item.querySelector('.badge').textContent;
 
-                if (subject.includes(searchValue) || sender.includes(searchValue) || content.includes(searchValue)) {
+                // Extract the date from the badge and format to 'YYYY-MM-DD'
+                const emailDate = new Date(dateReceived).toISOString().split('T')[0];
+
+                // Date range filtering
+                const withinDateRange = (!startDate || emailDate >= startDate) && (!endDate || emailDate <= endDate);
+
+                const matchesSearch = subject.includes(searchValue) || sender.includes(searchValue) || content.includes(searchValue);
+
+                if (matchesSearch && withinDateRange) {
                     item.style.display = '';
                 } else {
                     item.style.display = 'none';
                 }
             });
-        });
+        }
     </script>
 </body>
 </html>
